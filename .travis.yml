@@ -2,7 +2,6 @@ language: java
 sudo: false
 
 jdk:
-  - openjdk7
   - oraclejdk8
 
 # only build master and the MATH_3_X branch
@@ -10,6 +9,19 @@ branches:
   only:
     - master
     - MATH_3_X
+    - ekstazi
 
-after_success:
-  - mvn clean test jacoco:report coveralls:report
+
+
+before_script:
+  - cp -f -r ~/.ekstazi ./
+
+script:
+  - mvn -Pekstazi test
+  - pwd
+  - find -name .ekstazi
+  - cp -f -r ./.ekstazi ~
+
+cache:
+  directories:
+  - ~/.ekstazi
